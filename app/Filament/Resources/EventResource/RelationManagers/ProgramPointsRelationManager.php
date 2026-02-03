@@ -1037,8 +1037,7 @@ class ProgramPointsRelationManager extends RelationManager
                     }),
 
                 Tables\Filters\TernaryFilter::make('include_in_program')
-                    ->label('Uwzględniony w programie')
-                    ->default(true),
+                    ->label('Uwzględniony w programie'),
 
                 Tables\Filters\TernaryFilter::make('include_in_calculation')
                     ->label('Uwzględniony w kalkulacji'),
