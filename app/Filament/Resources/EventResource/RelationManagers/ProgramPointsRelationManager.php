@@ -426,15 +426,17 @@ class ProgramPointsRelationManager extends RelationManager
     protected function getPointCostForDisplay(EventProgramPoint $record): array
     {
         $currencySymbol = $this->getPricingCurrencySymbol($record);
-        $currencyRate = 1;
+        $currencyRate = (float)($record->exchange_rate ?? 1);
 
-        if ($record->currency_id) {
-            $currency = Currency::find($record->currency_id);
-            if ($currency) {
-                $currencyRate = (float) ($currency->exchange_rate ?? 1);
+        if (!$record->exchange_rate) {
+            if ($record->currency_id) {
+                $currency = Currency::find($record->currency_id);
+                if ($currency) {
+                    $currencyRate = (float) ($currency->exchange_rate ?? 1);
+                }
+            } elseif ($record->templatePoint?->currency) {
+                $currencyRate = (float) ($record->templatePoint->currency->exchange_rate ?? 1);
             }
-        } elseif ($record->templatePoint?->currency) {
-            $currencyRate = (float) ($record->templatePoint->currency->exchange_rate ?? 1);
         }
 
         $groupSize = $record->group_size ?? $record->templatePoint?->group_size ?? 1;
@@ -463,6 +465,8 @@ class ProgramPointsRelationManager extends RelationManager
             'group_size' => $groupSize,
             'groups_needed' => $groupsNeeded,
             'total_count' => $totalCount,
+            'exchange_rate' => $currencyRate,
+            'original_currency' => $this->getPricingCurrencySymbol($record),
         ];
     }
 
@@ -507,27 +511,34 @@ class ProgramPointsRelationManager extends RelationManager
             return 'Brak ceny';
         }
 
+        $rateInfo = '';
+        if ($data['original_currency'] !== 'PLN') {
+            $rateInfo = sprintf(' (Kurs: %s)', number_format($data['exchange_rate'], 4));
+        }
+
         if ($data['group_size'] <= 1) {
             return sprintf(
-                'Koszt: %s os. × %s szt. × %s %s = %s %s',
+                'Koszt: %s os. × %s szt. × %s %s = %s %s%s',
                 number_format((float) $data['total_count'], 0),
                 number_format((float) $data['quantity'], 0),
                 number_format((float) $data['unit_price'], 2),
-                $data['currency'],
+                $data['original_currency'],
                 number_format((float) $data['cost'], 2),
-                $data['currency']
+                $data['currency'],
+                $rateInfo
             );
         }
 
         return sprintf(
-            'Koszt: %s grup × %s szt. × %s %s = %s %s (grupa %s os.)',
+            'Koszt: %s grup × %s szt. × %s %s = %s %s (grupa %s os.)%s',
             number_format((float) $data['groups_needed'], 0),
             number_format((float) $data['quantity'], 0),
             number_format((float) $data['unit_price'], 2),
-            $data['currency'],
+            $data['original_currency'],
             number_format((float) $data['cost'], 2),
             $data['currency'],
-            number_format((float) $data['group_size'], 0)
+            number_format((float) $data['group_size'], 0),
+            $rateInfo
         );
     }
 
@@ -768,6 +779,24 @@ class ProgramPointsRelationManager extends RelationManager
                                 ->mapWithKeys(fn (Currency $currency) => [$currency->id => $currency->symbol . ' — ' . $currency->name]))
                             ->searchable()
                             ->preload()
+                            ->live()
+                            ->afterStateUpdated(function (Forms\Set $set, $state) {
+                                if ($state) {
+                                    $currency = Currency::find($state);
+                                    if ($currency) {
+                                        $set('exchange_rate', $currency->exchange_rate);
+                                    }
+                                } else {
+                                    $set('exchange_rate', 1.0000);
+                                }
+                            })
+                            ->columnSpan(1),
+                        Forms\Components\TextInput::make('exchange_rate')
+                            ->label('Kurs waluty')
+                            ->numeric()
+                            ->step(0.0001)
+                            ->default(1.0000)
+                            ->disabled(fn (Forms\Get $get) => !$get('currency_id') || Currency::find($get('currency_id'))?->symbol === 'PLN')
                             ->live()
                             ->columnSpan(1),
                         Forms\Components\TextInput::make('unit_price')
@@ -1275,6 +1304,7 @@ class ProgramPointsRelationManager extends RelationManager
                             'quantity' => $quantity,
                             'total_price' => $unitPrice * $quantity,
                             'currency_id' => $data['currency_id'] ?? $templatePoint->currency_id ?? null,
+                            'exchange_rate' => $templatePoint->currency?->exchange_rate ?? 1.0000,
                             'convert_to_pln' => (bool) ($data['convert_to_pln'] ?? $templatePoint->convert_to_pln ?? false),
                             'notes' => $data['notes'],
                             'include_in_program' => $data['include_in_program'],

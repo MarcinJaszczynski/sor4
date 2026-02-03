@@ -138,8 +138,11 @@
                             @foreach($result['program_points_breakdown'] ?? [] as $pp)
                                 <tr class="hover:bg-gray-50">
                                     <td class="px-3 py-1">
-                                        @if($pp['is_child']) <span class="text-gray-400 mr-1">→</span> @endif
+                                        @if($pp['is_child'] ?? false) <span class="text-gray-400 mr-1">→</span> @endif
                                         {{ $pp['name'] }}
+                                        @if(($pp['original_currency'] ?? 'PLN') !== 'PLN' && ($pp['convert_to_pln'] ?? false))
+                                            <div class="text-[10px] text-gray-400">Kurs: {{ number_format($pp['exchange_rate'] ?? 1, 4) }}</div>
+                                        @endif
                                     </td>
                                     <td class="px-3 py-1 text-right whitespace-nowrap">
                                         {{ number_format($pp['unit_price'], 2) }} {{ $pp['original_currency'] }}
@@ -148,7 +151,11 @@
                                         {{ $pp['count_value'] ?? $pp['participants'] ?? '?' }} osób
                                     </td>
                                     <td class="px-3 py-1 text-right font-medium">
-                                        {{ number_format($pp['total_cost_pln'], 2) }} PLN
+                                        @if(($pp['convert_to_pln'] ?? false) || ($pp['original_currency'] ?? 'PLN') === 'PLN')
+                                            {{ number_format($pp['total_cost_pln'], 2) }} PLN
+                                        @else
+                                            <span class="text-orange-600">{{ number_format($pp['total_cost_original'], 2) }} {{ $pp['original_currency'] }}</span>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach
@@ -194,10 +201,20 @@
                             
                             {{-- SUMY --}}
                             <tr class="border-t-2 border-gray-200">
-                                <td class="px-3 py-2 font-bold text-gray-700">SUMA dla PLN (bez narzutu):</td>
+                                <td class="px-3 py-2 font-bold text-gray-700">SUMA Część PLN (bez narzutu):</td>
                                 <td colspan="2"></td>
                                 <td class="px-3 py-2 text-right font-bold">{{ number_format($result['program_cost'] + $result['accommodation_cost'] + $result['transport_cost'] + $result['insurance_cost'], 2) }} PLN</td>
                             </tr>
+
+                            @foreach($result['currencies'] ?? [] as $code => $amount)
+                                @if($amount > 0)
+                                <tr>
+                                    <td class="px-3 py-2 font-bold text-orange-700">SUMA Część {{ $code }} (bez narzutu):</td>
+                                    <td colspan="2"></td>
+                                    <td class="px-3 py-2 text-right font-bold text-orange-700">{{ number_format($amount, 2) }} {{ $code }}</td>
+                                </tr>
+                                @endif
+                            @endforeach
                             
                             <tr>
                                 <td class="px-3 py-1 text-gray-600">Narzut ({{ number_format($this->record->markup->percent ?? 20, 2) }}%):</td>
@@ -244,15 +261,29 @@
                   </thead>
                   <tbody>
                       @foreach($calculationResults as $index => $result)
-                       <tr class="border-b hover:bg-gray-50">
+                       <tr class="border-b hover:bg-gray-50 bg-blue-50/10">
                            <td class="px-3 py-2 font-medium">{{ $variants[$index]['participant_count'] }} osób</td>
-                           <td class="px-3 py-2">PLN</td>
+                           <td class="px-3 py-2 font-bold">PLN</td>
                            <td class="px-3 py-2 text-right">{{ number_format($result['program_cost'] + $result['accommodation_cost'] + $result['transport_cost'] + $result['insurance_cost'], 2) }}</td>
                            <td class="px-3 py-2 text-right">{{ number_format($result['markup_amount'], 2) }}</td>
                            <td class="px-3 py-2 text-right">{{ number_format($result['tax_amount'], 2) }}</td>
                            <td class="px-3 py-2 text-right">{{ number_format($result['total_cost'], 2) }}</td>
                            <td class="px-3 py-2 text-right font-bold text-blue-700">{{ number_format($result['final_price_per_person'], 2) }}</td>
                        </tr>
+                       
+                       @foreach($result['currencies'] ?? [] as $code => $amount)
+                           @if($amount > 0)
+                           <tr class="border-b hover:bg-gray-50 text-orange-700 text-xs">
+                               <td class="px-3 py-1 italic text-gray-400">↳ dla {{ $variants[$index]['participant_count'] }} os.</td>
+                               <td class="px-3 py-1 font-bold">{{ $code }}</td>
+                               <td class="px-3 py-1 text-right">{{ number_format($amount, 2) }}</td>
+                               <td class="px-3 py-1 text-right">-</td>
+                               <td class="px-3 py-1 text-right">-</td>
+                               <td class="px-3 py-1 text-right font-bold">{{ number_format($amount, 2) }}</td>
+                               <td class="px-3 py-1 text-right font-medium">{{ number_format($result['currencies_per_person'][$code] ?? 0, 2) }}</td>
+                           </tr>
+                           @endif
+                       @endforeach
                       @endforeach
                   </tbody>
              </table>

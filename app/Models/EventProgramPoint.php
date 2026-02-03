@@ -42,6 +42,7 @@ class EventProgramPoint extends Model
         'show_description',
         'group_size',
         'currency_id',
+        'exchange_rate',
         'convert_to_pln',
         'parent_id',
         'is_cost',
@@ -70,6 +71,7 @@ class EventProgramPoint extends Model
         'pilot_pays' => 'boolean',
         'pilot_payment_needed' => 'decimal:2',
         'pilot_payment_given' => 'decimal:2',
+        'exchange_rate' => 'decimal:4',
     ];
 
     public function tasks(): \Illuminate\Database\Eloquent\Relations\MorphMany

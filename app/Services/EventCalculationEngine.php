@@ -110,11 +110,11 @@ class EventCalculationEngine
                 $currency = $currenciesMap[$point->currency_id] ?? null;
                 if ($currency) {
                     $currencyCode = $currency->symbol;
-                    $exchangeRate = $currency->exchange_rate;
+                    $exchangeRate = $point->exchange_rate ?? $currency->exchange_rate;
                 }
             } elseif ($point->templatePoint && $point->templatePoint->currency) {
                 $currencyCode = $point->templatePoint->currency->symbol;
-                $exchangeRate = $point->templatePoint->currency->exchange_rate;
+                $exchangeRate = $point->exchange_rate ?? $point->templatePoint->currency->exchange_rate;
             }
 
             $groupSize = $point->group_size ?? 1;
@@ -155,10 +155,13 @@ class EventCalculationEngine
                 'currency' => $currencyCode,
                 'quantity' => $quantity,
                 'total_cost_pln' => $finalCostPLN, // 0 if foreign currency not converted
+                'total_cost_original' => $cost,
                 'count_basis' => $groupSize <= 1 ? 'per_person' : 'per_group',
                 'count_value' => $countForProgramPoints,
                 'is_child' => false, // Default to false for Event calculation
-                'original_currency' => $currencyCode // Needed for view
+                'original_currency' => $currencyCode, // Needed for view
+                'exchange_rate' => $exchangeRate,
+                'convert_to_pln' => $convertToPln
             ];
         }
 

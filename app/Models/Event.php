@@ -536,6 +536,7 @@ class Event extends Model
                 'show_description' => $point->pivot->show_description ?? true,
                 'group_size' => $point->group_size ?? null,
                 'currency_id' => $point->currency_id ?? null,
+                'exchange_rate' => $point->currency?->exchange_rate ?? 1.0000,
                 'convert_to_pln' => $point->convert_to_pln ?? false,
             ]);
 
@@ -570,6 +571,7 @@ class Event extends Model
                         'show_description' => $child->pivot->show_description ?? true,
                         'group_size' => $child->group_size ?? null,
                         'currency_id' => $child->currency_id ?? null,
+                        'exchange_rate' => $child->currency?->exchange_rate ?? 1.0000,
                         'convert_to_pln' => $child->convert_to_pln ?? false,
                         'parent_id' => $mainPoint->id, // Ustawiamy relację rodzic-dziecko
                     ]);
