@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dokumentacja BP RAFA — Instrukcja użytkownika</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; color:#111; line-height:1.45; padding:30px; }
+    h1,h2,h3 { color:#0B63B7 }
+    h1{font-size:26px}
+    h2{font-size:20px}
+    pre, code { background:#f6f8fa; padding:6px 8px; border-radius:4px }
+    .toc { margin-bottom:20px }
+    footer{color:#666;margin-top:40px;font-size:13px}
+  </style>
+</head>
+<body>
+  <h1>Dokumentacja systemu BP RAFA — Instrukcja użytkownika</h1>
+  <p><strong>Data:</strong> 7 stycznia 2026</p>
+  <hr>
+  <div class="toc">
+    <h2>Spis treści</h2>
+    <ul>
+      <li>Wprowadzenie</li>
+      <li>Role i uprawnienia</li>
+      <li>Logowanie i Strefa Klienta</li>
+      <li>Panel Administratora (Filament)</li>
+      <li>Portal Pilota</li>
+      <li>Obsługa e-mail w aplikacji</li>
+      <li>FAQ i procedury</li>
+      <li>Regeneracja PDF dokumentacji</li>
+    </ul>
+  </div>
+
+  <h2>Wprowadzenie</h2>
+  <p>Aplikacja BP RAFA zawiera panel administracyjny (Filament) oraz Strefę Klienta, w której znajdują się dedykowane widoki dla uczestników, organizatorów i pilotów wycieczek. Dokumentacja opisuje podstawowe operacje dla trzech ról: administratora, pilota oraz uczestnika.</p>
+
+  <h2>Role i uprawnienia</h2>
+  <h3>Administrator (Biuro)</h3>
+  <ul>
+    <li>Pełny dostęp do panelu Filament.</li>
+    <li>Może zarządzać wydarzeniami (imprezami), użytkownikami, kontami e-mail, zatwierdzać wydatki pilotów i przeglądać wysłane/odebrane wiadomości.</li>
+  </ul>
+
+  <h3>Pilot</h3>
+  <ul>
+    <li>Ma dostęp do Strefy Klienta po przypisaniu do wydarzenia z rolą <em>pilot</em>.</li>
+    <li>Może zgłaszać wydatki poniesione na miejscu oraz dołączać skany/zdjęcia dokumentów.</li>
+  </ul>
+
+  <h3>Uczestnik / Klient</h3>
+  <p>Po aktywacji/akceptacji kodem dostępu widzi program, dokumenty i możliwość kontaktu z biurem.</p>
+
+  <h2>Logowanie i Strefa Klienta</h2>
+  <ol>
+    <li>Wejdź na: <code>/strefa-klienta</code>.</li>
+    <li>Zaloguj się używając e-mail i hasła (konto musi być przypisane do wydarzenia).</li>
+  </ol>
+
+  <h2>Panel Administratora (Filament)</h2>
+  <h3>Zarządzanie kontami e-mail</h3>
+  <p>W panelu Filament: <em>Poczta -> Konta</em>. Pola: nazwa konta, e-mail, login, zaszyfrowane hasło, IMAP/SMTP, widoczność.</p>
+
+  <h3>Zarządzanie wydatkami pilota</h3>
+  <p>W Filament: <em>Finanse -> Wydatki Pilotów</em>. Zatwierdzanie/odrzucanie wydatków i przegląd załączników.</p>
+
+  <h2>Portal Pilota — instrukcja krótka</h2>
+  <h3>Dodawanie wydatku</h3>
+  <ol>
+    <li>Zaloguj się do Strefy Klienta jako pilot.</li>
+    <li>W menu wybierz <em>Rozliczenia</em>.</li>
+    <li>Wypełnij formularz: kwota, waluta, opis, data i dołącz dokument.</li>
+  </ol>
+
+  <h2>Obsługa e-mail w aplikacji — instrukcja techniczna (dla admina)</h2>
+  <p>Ręczna synchronizacja: uruchom komendę:</p>
+  <pre><code>php artisan emails:sync --days=7</code></pre>
+
+  <h2>FAQ i procedury</h2>
+  <p>Najczęstsze procedury z krótkimi odpowiedziami.</p>
+
+  <h2>Regeneracja PDF dokumentacji</h2>
+  <p>Przykładowe komendy do wygenerowania PDF (wkhtmltopdf/pandoc):</p>
+  <pre><code>wkhtmltopdf docs/USER_GUIDE.html docs/USER_GUIDE.pdf
+# lub
+pandoc docs/USER_GUIDE.md -o docs/USER_GUIDE.pdf --pdf-engine=xelatex
+</code></pre>
+
+  <footer>
+    &copy; {{ date('Y') }} Biuro Podróży RAFA — dokument wygenerowany automatycznie.
+  </footer>
+</body>
+</html>

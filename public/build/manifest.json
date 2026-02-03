@@ -1,0 +1,149 @@
+{
+  "_main.DrUTKJF9.js": {
+    "file": "assets/js/main.DrUTKJF9.js",
+    "name": "main",
+    "imports": [
+      "_tslib.es6.B_Z_Z_Y2.js"
+    ],
+    "css": [
+      "assets/css/main.D9lVrORJ.css"
+    ]
+  },
+  "_pl.CVZQjVtV.js": {
+    "file": "assets/js/pl.CVZQjVtV.js",
+    "name": "pl",
+    "isDynamicEntry": true
+  },
+  "_sortable.DJo-CWZx.js": {
+    "file": "assets/js/sortable.DJo-CWZx.js",
+    "name": "sortable"
+  },
+  "_tslib.es6.B_Z_Z_Y2.js": {
+    "file": "assets/js/tslib.es6.B_Z_Z_Y2.js",
+    "name": "tslib.es6"
+  },
+  "_vendor.B9ygI19o.js": {
+    "file": "assets/js/vendor.B9ygI19o.js",
+    "name": "vendor"
+  },
+  "node_modules/@fullcalendar/common/main.css": {
+    "file": "assets/css/main.D9lVrORJ.css",
+    "src": "node_modules/@fullcalendar/common/main.css"
+  },
+  "node_modules/@fullcalendar/core/main.js": {
+    "file": "assets/js/main.CY826GJt.js",
+    "name": "main",
+    "src": "node_modules/@fullcalendar/core/main.js",
+    "isDynamicEntry": true,
+    "imports": [
+      "node_modules/@fullcalendar/core/vdom.js",
+      "_tslib.es6.B_Z_Z_Y2.js",
+      "_main.DrUTKJF9.js"
+    ],
+    "css": [
+      "assets/css/main.D9lVrORJ.css"
+    ]
+  },
+  "node_modules/@fullcalendar/core/vdom.js": {
+    "file": "assets/js/vdom.DuX097KQ.js",
+    "name": "vdom",
+    "src": "node_modules/@fullcalendar/core/vdom.js",
+    "isDynamicEntry": true,
+    "imports": [
+      "_tslib.es6.B_Z_Z_Y2.js"
+    ]
+  },
+  "node_modules/@fullcalendar/daygrid/main.css": {
+    "file": "assets/css/main.BA3E-W8n.css",
+    "src": "node_modules/@fullcalendar/daygrid/main.css"
+  },
+  "node_modules/@fullcalendar/daygrid/main.js": {
+    "file": "assets/js/main.EL4LX8CA.js",
+    "name": "main",
+    "src": "node_modules/@fullcalendar/daygrid/main.js",
+    "isDynamicEntry": true,
+    "imports": [
+      "_main.DrUTKJF9.js",
+      "_tslib.es6.B_Z_Z_Y2.js"
+    ],
+    "css": [
+      "assets/css/main.BA3E-W8n.css",
+      "assets/css/main.D9lVrORJ.css"
+    ]
+  },
+  "node_modules/@fullcalendar/interaction/main.js": {
+    "file": "assets/js/main.C0PruKEJ.js",
+    "name": "main",
+    "src": "node_modules/@fullcalendar/interaction/main.js",
+    "isDynamicEntry": true,
+    "imports": [
+      "_main.DrUTKJF9.js",
+      "_tslib.es6.B_Z_Z_Y2.js"
+    ],
+    "css": [
+      "assets/css/main.D9lVrORJ.css"
+    ]
+  },
+  "node_modules/@fullcalendar/list/main.css": {
+    "file": "assets/css/main.zNk8tqBb.css",
+    "src": "node_modules/@fullcalendar/list/main.css"
+  },
+  "node_modules/@fullcalendar/list/main.js": {
+    "file": "assets/js/main.uHczVoXp.js",
+    "name": "main",
+    "src": "node_modules/@fullcalendar/list/main.js",
+    "isDynamicEntry": true,
+    "imports": [
+      "_main.DrUTKJF9.js",
+      "_tslib.es6.B_Z_Z_Y2.js"
+    ],
+    "css": [
+      "assets/css/main.zNk8tqBb.css",
+      "assets/css/main.D9lVrORJ.css"
+    ]
+  },
+  "node_modules/@fullcalendar/timegrid/main.css": {
+    "file": "assets/css/main.DaAbxDcm.css",
+    "src": "node_modules/@fullcalendar/timegrid/main.css"
+  },
+  "node_modules/@fullcalendar/timegrid/main.js": {
+    "file": "assets/js/main.CtFRknBY.js",
+    "name": "main",
+    "src": "node_modules/@fullcalendar/timegrid/main.js",
+    "isDynamicEntry": true,
+    "imports": [
+      "_main.DrUTKJF9.js",
+      "_tslib.es6.B_Z_Z_Y2.js",
+      "node_modules/@fullcalendar/daygrid/main.js"
+    ],
+    "css": [
+      "assets/css/main.DaAbxDcm.css",
+      "assets/css/main.D9lVrORJ.css",
+      "assets/css/main.BA3E-W8n.css"
+    ]
+  },
+  "resources/css/app.css": {
+    "file": "assets/css/app.CaLZ9gV9.css",
+    "src": "resources/css/app.css",
+    "isEntry": true
+  },
+  "resources/js/app.js": {
+    "file": "assets/js/app.CL1atZF7.js",
+    "name": "app",
+    "src": "resources/js/app.js",
+    "isEntry": true,
+    "imports": [
+      "_vendor.B9ygI19o.js",
+      "_sortable.DJo-CWZx.js"
+    ],
+    "dynamicImports": [
+      "node_modules/@fullcalendar/core/vdom.js",
+      "node_modules/@fullcalendar/core/main.js",
+      "_pl.CVZQjVtV.js",
+      "node_modules/@fullcalendar/daygrid/main.js",
+      "node_modules/@fullcalendar/timegrid/main.js",
+      "node_modules/@fullcalendar/interaction/main.js",
+      "node_modules/@fullcalendar/list/main.js"
+    ]
+  }
+}

@@ -1,0 +1,8 @@
+{
+    "chat.tools.terminal.autoApprove": {
+        "/^npm view @fullcalendar/common version$/": {
+            "approve": true,
+            "matchCommandLine": true
+        }
+    }
+}

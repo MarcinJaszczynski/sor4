@@ -1,0 +1,126 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+@theme {
+    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+        'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+/* =========================================================================
+   CUSTOM FRONTEND UTILITIES (Badges, Tags, Package Display)
+   ========================================================================= */
+
+/* Package Page Badges & Tags */
+.package-box-tags .badge-tag,
+.package-box .badge-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-right: 8px;
+    margin-bottom: 6px; /* avoid vertical shift when wrapping */
+    padding: 5px 12px;
+    min-height: 28px;
+    border-radius: 12px;
+    background-color: #F3F4F6; /* much lighter gray */
+    color: #374151; /* darker gray text for contrast (thinner feel) */
+    text-decoration: none;
+    font-size: 0.86rem;
+    font-weight: 400; /* thinner text */
+    line-height: 1.1;
+    border: 1px solid rgba(15,23,42,0.04);
+}
+
+a.badge-tag:hover,
+.badge-tag:hover {
+    background-color: #E5E7EB; /* slightly darker than base, still light */
+    color: #111827;
+    text-decoration: none;
+}
+
+.package-box-tags .badge-tag,
+.package-box .badge-tag { border-radius: 6px; padding: 3px 8px; font-size: 0.86rem; }
+
+.badge-tag:focus,
+a.badge-tag:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(99,102,241,0.06);
+    background-color: #E5E7EB;
+}
+
+/* Mobile / front fixes - ensure these live in source so builds keep them */
+/* 1) Allow long package titles to wrap on small screens */
+.package-page-layout-section-two .column-left .title-section .title,
+.package-page-layout-section-two .column-left .title-section h2,
+.package-page-layout-section-two .column-left .title-section .title * {
+    white-space: normal !important;
+    min-width: 0 !important;
+    word-break: break-word !important;
+}
+
+/* 2) Defensive cookie/manage placement to avoid clipping by ancestor overflow */
+#cookie-manage {
+    position: fixed !important;
+    right: 16px !important;
+    bottom: 84px !important; /* slightly above mobile bottom bars */
+    z-index: 2147483647 !important;
+    white-space: normal !important;
+    min-width: 0 !important;
+}
+
+/* 3) meanmenu / hamburger and mobile bar tweaks */
+@media (max-width: 991px) {
+    .mean-container a.meanmenu-reveal span {
+        display: block !important;
+        height: 4px !important;
+        width: 26px !important;
+        margin: 5px auto !important;
+        background: #111827 !important;
+        border-radius: 2px !important;
+    }
+
+    .mean-container a.meanmenu-reveal {
+        padding: 8px 10px !important;
+    }
+
+    /* Ensure our mobile logo doesn't push the hamburger */
+    .mobile-bar .logo img {
+        max-width: 60% !important;
+        height: auto !important;
+    }
+
+    /* Small fix for .scroll-top sizing/box model */
+    .scroll-top {
+        box-sizing: border-box !important;
+        min-width: 0 !important;
+        max-width: 56px !important;
+        height: 56px !important;
+    }
+}
+
+/* ... Mobile/Compact overrides removed ... */
+
+/* =========================================================================
+   FILAMENT: Program points table actions (vertical stack)
+   ========================================================================= */
+.pp-actions-vertical .fi-ta-actions-cell .whitespace-nowrap {
+    white-space: normal;
+}
+
+.pp-actions-vertical .fi-ta-actions {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.35rem;
+}
+
+.pp-actions-vertical .fi-ta-actions > * {
+    width: max-content;
+}
+
+/* Ensure action buttons in the actions cell are left-aligned by default */
+.fi-ta-actions-cell .fi-ta-actions {
+    justify-content: flex-start !important;
+}
