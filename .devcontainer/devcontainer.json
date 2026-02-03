@@ -1,0 +1,19 @@
+{
+  "name": "BP RAFA Devcontainer",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": ".."
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-azuretools.vscode-docker",
+        "bmewburn.vscode-intelephense-client",
+        "esbenp.prettier-vscode"
+      ]
+    }
+  },
+  "postCreateCommand": "bash scripts/start_dev.sh --deps",
+  "forwardPorts": [8000],
+  "remoteUser": "vscode"
+}

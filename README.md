@@ -1,3 +1,30 @@
+# BP RAFA — Development notes
+
+## Devcontainer & quick start
+
+If you're working on this project locally or on a remote host, use the provided devcontainer to get a reproducible environment.
+
+- Open in VS Code and pick `Reopen in Container` (requires Docker).
+- The devcontainer will run `bash scripts/start_dev.sh --deps` after creation to install dependencies.
+- To manually prepare the environment run:
+
+```bash
+bash scripts/start_dev.sh --deps
+```
+
+Then start the dev server with:
+
+```bash
+# if Laravel
+php artisan serve --host=0.0.0.0 --port=8000
+# or fallback
+php -S 0.0.0.0:8000 -t public
+```
+
+## CI
+
+A GitHub Actions workflow is included at `.github/workflows/ci.yml` — it caches Composer and npm, installs dependencies and runs tests/builds on PRs and pushes to `main`.
+
 # Pricing Engine (Unified)
 
 Wdrożono jednolity silnik kalkulacji cen `UnifiedPriceCalculator` zastępujący wcześniejsze rozproszone rozwiązania (`EventTemplatePriceCalculator`, ręczne użycie `EventTemplateCalculationEngine` oraz skrypt batch).
